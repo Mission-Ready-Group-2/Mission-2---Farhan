@@ -3,7 +3,7 @@ import Results from "./components/Results";
 import { useDropzone } from "react-dropzone";
 import { useCallback, useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
-
+// TEST COMMENT
 const API_KEY: string = import.meta.env.VITE_API_KEY as string;
 const API_URL: string = import.meta.env.VITE_API_ENDPOINT as string;
 
@@ -26,7 +26,7 @@ function App(): JSX.Element {
     reader.readAsDataURL(acceptedFiles[0]);
   }, []);
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } =
-    useDropzone({ onDrop,});
+    useDropzone({ onDrop });
 
   // Fetch key tags from AI API
   async function getImageData() {
@@ -45,8 +45,6 @@ function App(): JSX.Element {
     }
   }
 
-  
-
   // Send data to backend
   async function sendData(data: apiResponse[]) {
     try {
@@ -59,7 +57,6 @@ function App(): JSX.Element {
       console.log(error);
     }
   }
-
 
   useEffect(() => {
     if (acceptedFiles.length > 0) {
