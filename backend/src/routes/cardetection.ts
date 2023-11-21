@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { Router } from "express";
 import axios from "axios";
 import { colors, cars } from "../utils/variables";
-import CarModel, {Car} from "../db/Cars";
+import CarModel, { Car } from "../db/Cars";
 
 const router: Router = express.Router();
 
@@ -28,28 +28,39 @@ function getColorAndTypeArrays(apiData: apiResponse[]): string[][] {
 router.post("/carvision", async (req: Request, res: Response) => {
   try {
     const [carType, carColor] = getColorAndTypeArrays(req.body);
-    console.log(carType, "cartypes")
+    console.log(carType, "cartypes");
     let carTypeMatch: string = carType[0];
     const carColorMatch: string = carColor[0];
 
     //Further filtering logic to combat inconsistencies in the API.
     if (carTypeMatch === "city car") {
-      if ((carType.includes("sedan")) || carType.includes("mid-size car") && !carType.includes("hatchback")) {
+      if (
+        carType.includes("sedan") ||
+        (carType.includes("mid-size car") && !carType.includes("hatchback"))
+      ) {
         carTypeMatch = "sedan";
-      } else if ((carType.includes("hatchback")) || carType.includes("compact")) {
+      } else if (carType.includes("hatchback") || carType.includes("compact")) {
         carTypeMatch = "hatchback";
       }
-    } else if (carTypeMatch === "hatchback" && carType.includes("sport utility vehicle")) {
+    } else if (
+      carTypeMatch === "hatchback" &&
+      carType.includes("sport utility vehicle")
+    ) {
       carTypeMatch = "suv";
-    } else if(carTypeMatch === "sport utility vehicle" && carType.includes("truck") || carType.includes("pickup")) {
+    } else if (
+      (carTypeMatch === "sport utility vehicle" && carType.includes("truck")) ||
+      carType.includes("pickup")
+    ) {
       carTypeMatch = "truck";
     }
-    console.log(carTypeMatch, "cartypematch")
-
+    console.log(carTypeMatch, "cartypematch");
 
     // Find exact match if both carType and carColor are provided
     if (carType.length > 0 && carColor.length > 0) {
-      const matchingCars = await CarModel.find({ bodyType: carTypeMatch, color: carColorMatch });
+      const matchingCars = await CarModel.find({
+        bodyType: carTypeMatch,
+        color: carColorMatch,
+      });
       if (matchingCars.length > 0) {
         return res.status(200).json(matchingCars);
       }
@@ -67,6 +78,7 @@ router.post("/carvision", async (req: Request, res: Response) => {
     res.status(200).json([]);
   } catch (err) {
     console.error(err);
+    // Maybe send a more detailed error message to the client
     res.status(500).send("Server error");
   }
 });

@@ -3,6 +3,7 @@ import Results from "./components/Results";
 import { useDropzone } from "react-dropzone";
 import { useCallback, useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
+// TEST COMMENT 2
 
 const API_KEY: string = import.meta.env.VITE_API_KEY as string;
 const API_URL: string = import.meta.env.VITE_API_ENDPOINT as string;
@@ -26,7 +27,7 @@ function App(): JSX.Element {
     reader.readAsDataURL(acceptedFiles[0]);
   }, []);
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } =
-    useDropzone({ onDrop,});
+    useDropzone({ onDrop });
 
   // Fetch key tags from AI API
   async function getImageData() {
@@ -41,11 +42,10 @@ function App(): JSX.Element {
         setOutput(response.data.tagsResult.values);
       } catch (error) {
         console.log(error);
+        // Maybe display user friendly message here like "Something went wrong, please try again"
       }
     }
   }
-
-  
 
   // Send data to backend
   async function sendData(data: apiResponse[]) {
@@ -59,7 +59,6 @@ function App(): JSX.Element {
       console.log(error);
     }
   }
-
 
   useEffect(() => {
     if (acceptedFiles.length > 0) {
@@ -79,6 +78,8 @@ function App(): JSX.Element {
         <div className=" px-6 py-2 rounded-md bg-slate-700 text-white font-bold mb-[-4px]">
           Image Search
         </div>
+        {/* Get redundant class into constant like const imageSearchClass = "px-6 py-2 rounded-md bg-slate-700 text-white font-bold mb-[-4px]";
+         */}
         <div className=" px-6 py-2 rounded-md bg-slate-700 text-white font-bold mb-[-4px]">
           Regular Search
         </div>
@@ -92,6 +93,8 @@ function App(): JSX.Element {
           preview={preview}
         />
       </div>
+      {/* Maybe use  {matches && <Results matches={matches} />}
+       */}
       {matches ? <Results matches={matches} /> : ""}
     </>
   );
