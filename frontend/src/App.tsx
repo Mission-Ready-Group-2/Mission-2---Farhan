@@ -3,7 +3,8 @@ import Results from "./components/Results";
 import { useDropzone } from "react-dropzone";
 import { useCallback, useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
-// TEST COMMENT
+// TEST COMMENT 2
+
 const API_KEY: string = import.meta.env.VITE_API_KEY as string;
 const API_URL: string = import.meta.env.VITE_API_ENDPOINT as string;
 
